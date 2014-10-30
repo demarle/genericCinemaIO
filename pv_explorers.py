@@ -10,6 +10,11 @@ class ImageExplorer(explorers.Explorer):
         simple.WriteImage("temporary.png")
         with open("temporary.png", "rb") as file:
             document.data = file.read()
+
+        #alternatively if you are just writing out files and don't need them in memory
+        ##fn = self.cinema_store.get_filename(document)
+        ##simple.WriteImage(fn)
+
         super(ImageExplorer, self).insert(document)
 
 class Camera(explorers.Track):
