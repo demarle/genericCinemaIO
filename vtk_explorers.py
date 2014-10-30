@@ -14,10 +14,8 @@ class Clip(explorers.Track):
         explorer.cinema_store.add_metadata({'type': 'parametric-image-stack'})
 
     def execute(self, doc):
-        """ subclasses operate on arguments here and return a result """
         o = doc.descriptor[self.argument]
-        self.clip.SetValue(o)
-
+        self.clip.SetValue(o) #<---- the most important thing!
 
 class ImageExplorer(explorers.Explorer):
 

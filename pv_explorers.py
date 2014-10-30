@@ -80,10 +80,6 @@ class Contour(explorers.Track):
 
 class Templated(explorers.Track):
 
-    @classmethod
-    def get_data_type(cls):
-        return "parametric-image-stack"
-
     def __init__(self, argument, filt, control, iSave=False):
         explorers.Track.__init__(self, iSave)
 
@@ -137,4 +133,3 @@ class Color(explorers.Track):
         if spec['type'] == 'lut':
             self.rep.LookupTable = spec['content']
             self.rep.ColorArrayName = o
-        return None

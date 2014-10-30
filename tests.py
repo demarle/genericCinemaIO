@@ -4,6 +4,24 @@ This module tests the generic interface to cinema data.
 
 from cinema_store import *
 
+def test_store():
+    fs = FileStore()
+    fs.filename_pattern = "{phi}/{theta}/data.raw"
+    fs.add_descriptor('theta', {
+        "default": 60,
+        "type":  "range",
+        "values": [60, 90, 120, 150],
+        "label": "theta"
+        })
+    fs.add_descriptor('phi', {
+        "default": 180,
+        "type":  "range",
+        "values": [180],
+        "label": "phi"
+        })
+    doc = Document({"phi": 10}, "Hello World")
+    fs.insert(doc)
+
 def demonstrate_populate(fname="/tmp/demonstrate_populate/info.json"):
     """Demonstrates how to setup a basic cinema store filling the data up with text"""
     import explorers
@@ -79,7 +97,6 @@ def test_vtk_clip(fname=None):
     e.explore()
     return e
 
-
 def test_pv_slice(fname):
     import explorers
     import pv_explorers
@@ -114,26 +131,7 @@ def test_pv_slice(fname):
     e = pv_explorers.ImageExplorer(cs, args, [cam, filt, col])
     #run through all parameter combinations and put data into the store
     e.explore()
-    del view_proxy
     return e
-
-def test_store():
-    fs = FileStore()
-    fs.filename_pattern = "{phi}/{theta}/data.raw"
-    fs.add_descriptor('theta', {
-        "default": 60,
-        "type":  "range",
-        "values": [60, 90, 120, 150],
-        "label": "theta"
-        })
-    fs.add_descriptor('phi', {
-        "default": 180,
-        "type":  "range",
-        "values": [180],
-        "label": "phi"
-        })
-    doc = Document({"phi": 10}, "Hello World")
-    fs.insert(doc)
 
 def test_pv_contour(fname):
     import explorers
