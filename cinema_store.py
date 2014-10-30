@@ -1,11 +1,11 @@
 """
     Module defining classes and methods for managing cinema data storage.
-"""
 
-#TODO:
-#child stores (for workbench)
-#cost data
-#try more than parametric-image-stack type use case
+    TODO:
+    child stores (for workbench)
+    cost data
+    expand beyond parametric-image-stack type use case
+"""
 
 import sys
 import json
@@ -167,19 +167,23 @@ class FileStore(Store):
             self.metadata = info_json['metadata']
             self.__filename_pattern = info_json['name_pattern']
 
-    def create(self):
-        """creates a new file store"""
-        super(FileStore, self).create()
+    def save(self):
+        """ writes out a modified file store """
         info_json = dict(
                 arguments = self.descriptor_definition,
                 name_pattern = self.filename_pattern,
-                metadata = None
+                metadata = self.metadata
                 )
         dirname = os.path.dirname(self.__dbfilename)
         if not os.path.exists(dirname):
             os.makedirs(dirname)
         with open(self.__dbfilename, mode="wb") as file:
             json.dump(info_json, file)
+
+    def create(self):
+        """creates a new file store"""
+        super(FileStore, self).create()
+        self.save()
 
     @property
     def filename_pattern(self):
@@ -196,8 +200,9 @@ class FileStore(Store):
         dirname = os.path.dirname(fname)
         if not os.path.exists(dirname):
             os.makedirs(dirname)
-        with open(fname, mode='w') as file:
-            file.write(document.data)
+        if document.data:
+            with open(fname, mode='w') as file:
+                file.write(document.data)
 
         with open(fname + ".__data__", mode="w") as file:
             info_json = dict(
