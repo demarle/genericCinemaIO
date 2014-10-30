@@ -68,7 +68,7 @@ class Explorer(object):
     def insert(self, doc):
         self.cinema_store.insert(doc)
 
-class Engine(object):
+class Track(object):
     """
     abstract interface for things that can produce data
 

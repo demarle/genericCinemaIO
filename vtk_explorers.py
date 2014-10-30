@@ -2,7 +2,7 @@ import explorers
 import vtk
 from vtk.util import numpy_support
 
-class Clip(explorers.Engine):
+class Clip(explorers.Track):
 
     def __init__(self, argument, clip):
         super(Clip, self).__init__()

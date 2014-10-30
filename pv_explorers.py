@@ -12,7 +12,7 @@ class ImageExplorer(explorers.Explorer):
             document.data = file.read()
         super(ImageExplorer, self).insert(document)
 
-class Camera(explorers.Engine):
+class Camera(explorers.Track):
     def __init__(self, center, axis, distance, view):
         super(Camera, self).__init__()
         try:
@@ -46,7 +46,7 @@ class Camera(explorers.Engine):
         self.view.CameraFocalPoint = self.center
 
 
-class Slice(explorers.Engine):
+class Slice(explorers.Track):
 
     def __init__(self, argument, filt):
         super(Slice, self).__init__()
@@ -62,7 +62,7 @@ class Slice(explorers.Engine):
         o = doc.descriptor[self.argument]
         self.slice.SliceOffsetValues=[o]
 
-class Contour(explorers.Engine):
+class Contour(explorers.Track):
 
     def __init__(self, argument, filt, iSave=False):
         super(Contour, self).__init__()
@@ -78,14 +78,14 @@ class Contour(explorers.Engine):
         o = doc.descriptor[self.argument]
         self.contour.SetPropertyWithName(self.control,[o])
 
-class Templated(explorers.Engine):
+class Templated(explorers.Track):
 
     @classmethod
     def get_data_type(cls):
         return "parametric-image-stack"
 
     def __init__(self, argument, filt, control, iSave=False):
-        explorers.Engine.__init__(self, iSave)
+        explorers.Track.__init__(self, iSave)
 
         self.argument = argument
         self.filt = filt
@@ -120,7 +120,7 @@ class ColorList():
     def getColor(self, name):
         return self._dict[name]
 
-class Color(explorers.Engine):
+class Color(explorers.Track):
 
     def __init__(self, argument, colorlist, rep):
         super(Color, self).__init__()

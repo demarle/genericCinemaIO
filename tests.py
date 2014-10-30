@@ -13,13 +13,13 @@ def demonstrate_populate(fname="/tmp/demonstrate_populate/info.json"):
     cs.add_descriptor("theta", make_cinema_descriptor_properties('theta', [0,10,20,30,40]))
     cs.add_descriptor("phi", make_cinema_descriptor_properties('phi', [0,10,20,30,40]))
 
-    class Engine(explorers.Engine):
+    class Track(explorers.Track):
         def execute(self, doc):
             # we save the document's descriptor as the data in
             # this dummy document.
             doc.data = str(doc.descriptor)
 
-    e = explorers.Explorer(cs, ['theta', 'phi'], [Engine()])
+    e = explorers.Explorer(cs, ['theta', 'phi'], [Track()])
     e.explore()
 
 def demonstrate_analyze(fname="/tmp/demonstrate_populate/info.json"):
@@ -211,7 +211,7 @@ def test_NOP(fname):
 )
     col = pv_explorers.Color("color", colorChoice, sliceRep)
 
-    class testEE(explorers.Engine):
+    class testEE(explorers.Track):
         """
         An explorer to demonstrate not having an entry in the name_pattern.
         Concievable can use these to combine several internal passes together.

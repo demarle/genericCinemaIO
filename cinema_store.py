@@ -3,11 +3,9 @@
 """
 
 #TODO:
-#children
-#deal with cases where we want less than or more than one file cleanly
-#extensions for specific cinema types that need to work on metadata
-#bring over seb's and scott's scripts on top of this
-#todo: cleanup terms 'args', 'item', and 'each'
+#child stores (for workbench)
+#cost data
+#try more than parametric-image-stack type use case
 
 import sys
 import json
