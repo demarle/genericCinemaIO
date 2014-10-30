@@ -1,13 +1,9 @@
-#!/usr/bin/python
 
 # -----------------------------------------------------------------------------
 # ParaView Python - Path setup
 # -----------------------------------------------------------------------------
 
 import sys
-pv_path = '/home/scott/projects/ParaView/build-make-debug'
-sys.path.append('%s/lib' % pv_path)
-sys.path.append('%s/lib/site-packages' % pv_path)
 
 from paraview.simple import *
 from paraview import data_exploration as wx
