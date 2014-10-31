@@ -200,7 +200,7 @@ class FileStore(Store):
         dirname = os.path.dirname(fname)
         if not os.path.exists(dirname):
             os.makedirs(dirname)
-        if document.data:
+        if not document.data == None:
             with open(fname, mode='w') as file:
                 file.write(document.data)
 

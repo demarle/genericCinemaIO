@@ -4,23 +4,28 @@ This module tests the generic interface to cinema data.
 
 from cinema_store import *
 
-def test_store():
-    fs = FileStore()
-    fs.filename_pattern = "{phi}/{theta}/data.raw"
-    fs.add_descriptor('theta', {
-        "default": 60,
-        "type":  "range",
-        "values": [60, 90, 120, 150],
-        "label": "theta"
-        })
-    fs.add_descriptor('phi', {
-        "default": 180,
-        "type":  "range",
-        "values": [180],
-        "label": "phi"
-        })
-    doc = Document({"phi": 10}, "Hello World")
-    fs.insert(doc)
+#import sys
+#sys.path.append("/Builds/ParaView/devel/master_debug/lib")
+#sys.path.append("/Builds/ParaView/devel/master_debug/lib/site-packages")
+
+def demonstrate_manual_populate(fname="/tmp/demonstrate_manual_populate/info.json"):
+    """Demonstrates how to setup a basic cinema store filling the data up with text"""
+
+    thetas = [0,10,20,30,40]
+    phis = [0,10,20]
+
+    cs = FileStore(fname)
+    cs.filename_pattern = "{theta}/{phi}"
+    cs.add_descriptor("theta", make_cinema_descriptor_properties('theta', thetas))
+    cs.add_descriptor("phi", make_cinema_descriptor_properties('phi', phis))
+
+    for t in thetas:
+        for p in phis:
+            doc = Document({'theta':t,'phi':p})
+            doc.data = str(doc.descriptor)
+            cs.insert(doc)
+
+    cs.save()
 
 def demonstrate_populate(fname="/tmp/demonstrate_populate/info.json"):
     """Demonstrates how to setup a basic cinema store filling the data up with text"""
@@ -97,6 +102,7 @@ def test_vtk_clip(fname=None):
     e.explore()
     return e
 
+
 def test_pv_slice(fname):
     import explorers
     import pv_explorers
@@ -131,7 +137,26 @@ def test_pv_slice(fname):
     e = pv_explorers.ImageExplorer(cs, args, [cam, filt, col])
     #run through all parameter combinations and put data into the store
     e.explore()
+    del view_proxy
     return e
+
+def test_store():
+    fs = FileStore()
+    fs.filename_pattern = "{phi}/{theta}/data.raw"
+    fs.add_descriptor('theta', {
+        "default": 60,
+        "type":  "range",
+        "values": [60, 90, 120, 150],
+        "label": "theta"
+        })
+    fs.add_descriptor('phi', {
+        "default": 180,
+        "type":  "range",
+        "values": [180],
+        "label": "phi"
+        })
+    doc = Document({"phi": 10}, "Hello World")
+    fs.insert(doc)
 
 def test_pv_contour(fname):
     import explorers
