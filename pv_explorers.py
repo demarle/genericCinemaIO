@@ -50,6 +50,22 @@ class Camera(explorers.Track):
         self.view.CameraViewUp = up
         self.view.CameraFocalPoint = self.center
 
+    @staticmethod
+    def obtain_angles(angular_steps=[10,15]):
+        import math
+        thetas = []
+        phis = []
+        theta_offset = 90 % angular_steps[1]
+        if theta_offset == 0:
+            theta_offset += angular_steps[1]
+        for theta in range(-90 + theta_offset,
+                           90 - theta_offset + 1, angular_steps[1]):
+            theta_rad = float(theta) / 180.0 * math.pi
+            for phi in range(0, 360, angular_steps[0]):
+                phi_rad = float(phi) / 180.0 * math.pi
+                thetas.append(theta)
+                phis.append(phi)
+        return thetas, phis
 
 class Slice(explorers.Track):
 
