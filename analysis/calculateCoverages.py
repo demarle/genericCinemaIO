@@ -101,7 +101,7 @@ def calculateCoverages(namePattern, arguments):
             layerEncodingList = [ valueCodes[component][currentValues[component]] for component in layerComponents ]
 
             # Make a string out of the ordered list created above, separated by a '-'
-            layerEncoding = '-'.join(layerEncodingList)
+            layerEncoding = ''.join(layerEncodingList)
 
             # Use the file path to image to read that image and get the percent coverage
             percentCoverage = calculateCoverage(os.path.join(args.rootdir, relativePath), [255,255,255])
@@ -127,6 +127,12 @@ def calculateCoverages(namePattern, arguments):
 
     # Now that we have gone through the entire dataset, write out all the histograms
     writeHistogramFiles(args.outdir, histObj)
+
+    # Add a list of all possible combinations of objects (a combination of them
+    # is like a 'layer') to the analysis object
+    analysisObject['layer'] = {
+        'values': histObj.keys()
+    }
 
     return analysisObject
 
@@ -154,7 +160,8 @@ if __name__ == "__main__":
     # Perform the analysis
     analysisObject = calculateCoverages(namePattern, arguments)
 
-    # Modify the info.json file and write it back
+    # Modify the info.json file and write it back, but to a file in the output
+    outputJson = os.path.join(args.outdir, 'info.json')
     json_data['metadata']['analysis'] = analysisObject
-    with open(infojson, 'w') as fd:
+    with open(outputJson, 'w') as fd:
         json.dump(json_data, fd)
