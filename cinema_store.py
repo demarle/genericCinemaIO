@@ -116,11 +116,12 @@ class Store(object):
         """Add a descriptor.
 
         :param name: Name for the descriptor.
+
         :param properties: Keyword arguments can be used to associate miscellaneous
         meta-data with this descriptor.
         """
-        if self.__loaded:
-            raise RuntimeError("Updating descriptors after loading/creating a store is not supported.")
+        #if self.__loaded:
+        #    raise RuntimeError("Updating descriptors after loading/creating a store is not supported.")
         properties = self.validate_descriptor(name, properties)
         self.__descriptor_definition[name] = properties
 

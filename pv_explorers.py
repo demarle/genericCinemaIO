@@ -3,11 +3,16 @@ import explorers
 import paraview.simple as simple
 
 class ImageExplorer(explorers.Explorer):
+    def __init__(self,
+                cinema_store, arguments, tracks,
+                view=None):
+        super(ImageExplorer, self).__init__(cinema_store, arguments, tracks)
+        self.view = view
 
     def insert(self, document):
         # FIXME: for now we'll write a temporary image and read that in.
         # we need to provide nicer API for this.
-        simple.WriteImage("temporary.png")
+        simple.WriteImage("temporary.png", view=self.view)
         with open("temporary.png", "rb") as file:
             document.data = file.read()
 
@@ -85,7 +90,7 @@ class Slice(explorers.Track):
 
 class Contour(explorers.Track):
 
-    def __init__(self, argument, filt, iSave=False):
+    def __init__(self, argument, filt):
         super(Contour, self).__init__()
         self.argument = argument
         self.contour = filt
@@ -101,23 +106,16 @@ class Contour(explorers.Track):
 
 class Templated(explorers.Track):
 
-    def __init__(self, argument, filt, control, iSave=False):
-        explorers.Track.__init__(self, iSave)
+    def __init__(self, argument, filt, control):
+        explorers.Track.__init__(self)
 
         self.argument = argument
         self.filt = filt
         self.control = control
 
-    def execute(self, arguments):
-        o = arguments[self.argument]
+    def execute(self, doc):
+        o = doc.descriptor[self.argument]
         self.filt.SetPropertyWithName(self.control,[o])
-        payload = None
-        return payload
-
-    def save(self, fullname, payload, arguments):
-        if self.iSave:
-            #print "SAVING", fullname, payload, arguments
-            simple.WriteImage(fullname)
 
 class ColorList():
     """

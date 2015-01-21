@@ -41,7 +41,7 @@ class Explorer(object):
             e.execute(doc)
         self.insert(doc)
 
-    def explore(self):
+    def explore(self, fixedargs=None):
         """Explore the problem space to populate the store"""
         self.prepare()
 
@@ -55,6 +55,8 @@ class Explorer(object):
 
         for element in itertools.product(*values):
             desc = dict(itertools.izip(args, element))
+            if fixedargs != None:
+                desc.update(fixedargs)
             self.execute(desc)
 
         self.finish()
